@@ -1,7 +1,7 @@
-base   oauthgeneric
-author Andreas Gohr
-email  dokuwiki@cosmocode.de
-date   2021-12-05
-name   oauth generic Service
-desc   Generic Service for use with the oAuth Plugin
-url    http://www.dokuwiki.org/plugin:oauthgeneric
+base   oauthkeycloak
+author Naoto Kobayashi
+email  naoto.kobayashi4c@gmail.com
+date   2021-12-20
+name   oAuth Keycloak Service
+desc   Keycloak Service for use with the oAuth Plugin
+url    http://www.dokuwiki.org/plugin:oauthkeycloak

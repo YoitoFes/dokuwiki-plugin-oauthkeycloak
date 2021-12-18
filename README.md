@@ -1,19 +1,23 @@
-oauthgeneric Plugin for DokuWiki
+oauthkeycloak Plugin for DokuWiki
+===
 
-Generic Service for use with the oAuth Plugin
+Keycloak Service for use with the oAuth Plugin 2021-12-19 or above
 
 All documentation for this plugin can be found at
-http://www.dokuwiki.org/plugin:oauthgeneric
+<http://www.dokuwiki.org/plugin:oauthkeycloak>
 
 If you install this plugin manually, make sure it is installed in
-lib/plugins/oauthgeneric/ - if the folder is called different it
+lib/plugins/oauthkeycloak/ - if the folder is called different it
 will not work!
 
-Please refer to http://www.dokuwiki.org/plugins for additional info
+Please refer to <http://www.dokuwiki.org/plugins> for additional info
 on how to install plugins in DokuWiki.
 
 ----
-Copyright (C) Andreas Gohr <dokuwiki@cosmocode.de>
+Copyright (C) Naoto Kobayashi <naoto.kobayashi4c@gmail.com>
+
+This program is based on [dokuwiki-plugin-oauthgeneric](https://github.com/cosmocode/dokuwiki-plugin-oauthgeneric)
+by Andreas Gohr <dokuwiki@cosmocode.de>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

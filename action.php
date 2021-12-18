@@ -1,19 +1,28 @@
 <?php
 
 use dokuwiki\plugin\oauth\Adapter;
-use dokuwiki\plugin\oauthgeneric\DotAccess;
-use dokuwiki\plugin\oauthgeneric\Generic;
+use dokuwiki\plugin\oauthkeycloak\Keycloak;
 
 /**
- * Service Implementation for oAuth Doorkeeper authentication
+ * Service Implementation for Keycloak authentication
  */
-class action_plugin_oauthgeneric extends Adapter
+class action_plugin_oauthkeycloak extends Adapter
 {
-
     /** @inheritdoc */
     public function registerServiceClass()
     {
-        return Generic::class;
+        return Keycloak::class;
+    }
+
+    /**
+     * @inheritdoc
+     * @throws \OAuth\Common\Exception\Exception
+     */
+    public function logout()
+    {
+        /** @var Keycloak */
+        $oauth = $this->getOAuthService();
+        $oauth->logout();
     }
 
     /** * @inheritDoc */
@@ -22,59 +31,31 @@ class action_plugin_oauthgeneric extends Adapter
         $oauth = $this->getOAuthService();
         $data = array();
 
-        $url = $this->getConf('userurl');
+        $url = Keycloak::getEndpointUri(Keycloak::ENDPOINT_USERINFO);
         $raw = $oauth->request($url);
 
-        if (!$raw) throw new OAuthException('Failed to fetch data from userurl');
+        if (!$raw) throw new OAuthException('Failed to fetch data from userinfo endpoint');
         $result = json_decode($raw, true);
-        if (!$result) throw new OAuthException('Failed to parse data from userurl');
+        if (!$result) throw new OAuthException('Failed to parse data from userinfo endpoint');
 
-        $user = DotAccess::get($result, $this->getConf('json-user'), '');
-        $name = DotAccess::get($result, $this->getConf('json-name'), '');
-        $mail = DotAccess::get($result, $this->getConf('json-mail'), '');
-        $grps = DotAccess::get($result, $this->getConf('json-grps'), []);
+        $data = array();
+        $data['user'] = $result['preferred_username'];
+        $data['name'] = $result['name'];
+        $data['mail'] = $result['email'];
+        $data['grps'] = $result['groups'];
 
-        // type fixes
-        if (is_array($user)) $user = array_shift($user);
-        if (is_array($name)) $user = array_shift($name);
-        if (is_array($mail)) $user = array_shift($mail);
-        if (!is_array($grps)) {
-            $grps = explode(',', $grps);
-            $grps = array_map('trim', $grps);
-        }
-
-        // fallbacks for user name
-        if (empty($user)) {
-            if (!empty($name)) {
-                $user = $name;
-            } elseif (!empty($mail)) {
-                list($user) = explode('@', $mail);
-            }
-        }
-
-        // fallback for full name
-        if (empty($name)) {
-            $name = $user;
-        }
-
-        return compact('user', 'name', 'mail', 'grps');
+        return $data;
     }
 
     /** @inheritdoc */
     public function getScopes()
     {
-        return $this->getConf('scopes');
-    }
-
-    /** @inheritDoc */
-    public function getLabel()
-    {
-        return $this->getConf('label');
+        return array(Keycloak::SCOPE_OPENID);
     }
 
     /** @inheritDoc */
     public function getColor()
     {
-        return $this->getConf('color');
+        return '#333333';
     }
 }
