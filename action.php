@@ -28,10 +28,11 @@ class action_plugin_oauthkeycloak extends Adapter
     /** * @inheritDoc */
     public function getUser()
     {
+        /** @var Keycloak */
         $oauth = $this->getOAuthService();
         $data = array();
 
-        $url = Keycloak::getEndpointUri(Keycloak::ENDPOINT_USERINFO);
+        $url = $oauth->getEndpoint(Keycloak::ENDPOINT_USERINFO);
         $raw = $oauth->request($url);
 
         if (!$raw) throw new OAuthException('Failed to fetch data from userinfo endpoint');

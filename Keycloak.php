@@ -29,31 +29,35 @@ class Keycloak extends AbstractOAuth2Base
      */
     const ENDPOINT_LOGOUT   = 'end_session_endpoint';
 
+    protected $discovery;
+
     /**
      * Return URI of discovered endpoint
      *
      * @return string
      */
-    public static function getEndpointUri(string $endpoint)
+    public function getEndpoint(string $endpoint)
     {
-        $plugin = plugin_load('helper', 'oauthkeycloak');
-        $json = file_get_contents($plugin->getConf('openidurl'));
-        if (!$json) return '';
-        $data = json_decode($json, true);
-        if (!isset($data[$endpoint])) return '';
-        return $data[$endpoint];
+        if (!isset($this->discovery)) {
+            $plugin = plugin_load('helper', 'oauthkeycloak');
+            $json = file_get_contents($plugin->getConf('openidurl'));
+            if (!$json) return '';
+            $this->discovery = json_decode($json, true);
+        }
+        if (!isset($this->discovery[$endpoint])) return '';
+        return $this->discovery[$endpoint];
     }
 
     /** @inheritdoc */
     public function getAuthorizationEndpoint()
     {
-        return new Uri(self::getEndpointUri(self::ENDPOINT_AUTH));
+        return new Uri($this->getEndpoint(self::ENDPOINT_AUTH));
     }
 
     /** @inheritdoc */
     public function getAccessTokenEndpoint()
     {
-        return new Uri(self::getEndpointUri(self::ENDPOINT_TOKEN));
+        return new Uri($this->getEndpoint(self::ENDPOINT_TOKEN));
     }
 
     /** @inheritdoc */
@@ -84,7 +88,7 @@ class Keycloak extends AbstractOAuth2Base
         ];
 
         $this->httpClient->retrieveResponse(
-            new Uri(self::getEndpointUri(self::ENDPOINT_LOGOUT)),
+            new Uri($this->getEndpoint(self::ENDPOINT_LOGOUT)),
             $parameters,
             $this->getExtraOAuthHeaders()
         );
