@@ -1,7 +1,7 @@
 base   oauthkeycloak
 author Naoto Kobayashi
 email  naoto.kobayashi4c@gmail.com
-date   2021-12-23
+date   2022-03-17
 name   oAuth Keycloak Service
 desc   Keycloak Service for use with the oAuth Plugin
 url    http://www.dokuwiki.org/plugin:oauthkeycloak
