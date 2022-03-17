@@ -8,3 +8,6 @@ $conf['key'] = '';
 $conf['secret'] = '';
 
 $conf['openidurl'] = '';
+
+$conf['label'] = 'Keycloak';
+$conf['color'] = '#333333';

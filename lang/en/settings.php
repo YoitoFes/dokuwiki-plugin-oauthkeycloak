@@ -9,3 +9,6 @@
 $lang['key'] = 'Client ID';
 $lang['secret'] = 'Cient Secret';
 $lang['openidurl'] = 'OpenID Connect Auto Discovery URL';
+
+$lang['label'] = 'Label to display on the login button';
+$lang['color'] = 'Color to use with the login button';

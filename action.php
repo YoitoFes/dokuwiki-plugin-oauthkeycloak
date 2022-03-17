@@ -55,8 +55,14 @@ class action_plugin_oauthkeycloak extends Adapter
     }
 
     /** @inheritDoc */
+    public function getLabel()
+    {
+        return $this->getConf('label');
+    }
+
+    /** @inheritDoc */
     public function getColor()
     {
-        return '#333333';
+        return $this->getConf('color');
     }
 }
