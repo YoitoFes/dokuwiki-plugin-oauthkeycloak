@@ -1,7 +1,7 @@
 <?php
 
 /**
- * english language file for oauthkeycloak plugin
+ * english language file for oauthazuread plugin
  *
  * @author Naoto Kobayashi <naoto.kobayashi4c@gmail.com>
  */

@@ -1,17 +1,17 @@
 <?php
 
 use dokuwiki\plugin\oauth\Adapter;
-use dokuwiki\plugin\oauthkeycloak\Keycloak;
+use dokuwiki\plugin\oauthazuread\AzureAD;
 
 /**
- * Service Implementation for Keycloak authentication
+ * Service Implementation for Azure AD authentication
  */
-class action_plugin_oauthkeycloak extends Adapter
+class action_plugin_oauthazuread extends Adapter
 {
     /** @inheritdoc */
     public function registerServiceClass()
     {
-        return Keycloak::class;
+        return AzureAD::class;
     }
 
     /**
@@ -20,7 +20,7 @@ class action_plugin_oauthkeycloak extends Adapter
      */
     public function logout()
     {
-        /** @var Keycloak */
+        /** @var AzureAD */
         $oauth = $this->getOAuthService();
         $oauth->logout();
     }
@@ -28,11 +28,11 @@ class action_plugin_oauthkeycloak extends Adapter
     /** * @inheritDoc */
     public function getUser()
     {
-        /** @var Keycloak */
+        /** @var AzureAD */
         $oauth = $this->getOAuthService();
         $data = array();
 
-        $url = $oauth->getEndpoint(Keycloak::ENDPOINT_USERINFO);
+        $url = $oauth->getEndpoint(AzureAD::ENDPOINT_USERINFO);
         $raw = $oauth->request($url);
 
         if (!$raw) throw new OAuthException('Failed to fetch data from userinfo endpoint');
@@ -51,7 +51,7 @@ class action_plugin_oauthkeycloak extends Adapter
     /** @inheritdoc */
     public function getScopes()
     {
-        return array(Keycloak::SCOPE_OPENID);
+        return array(AzureAD::SCOPE_OPENID);
     }
 
     /** @inheritDoc */

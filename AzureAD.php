@@ -1,18 +1,18 @@
 <?php
 
-namespace dokuwiki\plugin\oauthkeycloak;
+namespace dokuwiki\plugin\oauthazuread;
 
 use dokuwiki\plugin\oauth\Service\AbstractOAuth2Base;
 use OAuth\Common\Http\Uri\Uri;
 
 /**
- * Custom Service for Keycloak oAuth
+ * Custom Service for Azure AD oAuth
  */
-class Keycloak extends AbstractOAuth2Base
+class AzureAD extends AbstractOAuth2Base
 {
     /**
      * Defined scopes are listed here:
-     * @link https://www.keycloak.org/docs/latest/server_admin/#_client_scopes
+     * @link https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-protocols-oidc
      */
     const SCOPE_OPENID    = 'openid';
 
@@ -25,7 +25,7 @@ class Keycloak extends AbstractOAuth2Base
     const ENDPOINT_USERINFO = 'userinfo_endpoint';
     /**
      * This endpoint is used for backchannel logout and documented here
-     * @link https://www.keycloak.org/docs/latest/server_admin/#con-basic-settings_server_administration_guide
+     * @link https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-protocols-oidc
      */
     const ENDPOINT_LOGOUT   = 'end_session_endpoint';
 
@@ -39,7 +39,7 @@ class Keycloak extends AbstractOAuth2Base
     public function getEndpoint(string $endpoint)
     {
         if (!isset($this->discovery)) {
-            $plugin = plugin_load('helper', 'oauthkeycloak');
+            $plugin = plugin_load('helper', 'oauthazuread');
             $json = file_get_contents($plugin->getConf('openidurl'));
             if (!$json) return '';
             $this->discovery = json_decode($json, true);

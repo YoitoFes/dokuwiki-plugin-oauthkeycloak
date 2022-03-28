@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Options for the oauthkeycloak plugin
+ * Options for the oauthazuread plugin
  */
 
 $meta['key'] = array('string');
