@@ -41,7 +41,7 @@ class Keycloak extends AbstractOAuth2Base
         if (!isset($this->discovery)) {
             $plugin = plugin_load('helper', 'oauthkeycloak');
             $json = file_get_contents($plugin->getConf('openidurl'));
-            if (!$json) return '';
+            if (!$json) throw new \Exception('Failed accessing ' . $plugin->getConf('openidurl'));
             $this->discovery = json_decode($json, true);
         }
         if (!isset($this->discovery[$endpoint])) return '';
