@@ -43,7 +43,11 @@ class action_plugin_oauthkeycloak extends Adapter
         $data['user'] = $result['preferred_username'];
         $data['name'] = $result['name'];
         $data['mail'] = $result['email'];
-        $data['grps'] = $result['groups'];
+        if (array_key_exists('groups', $result)) {
+            $data['grps'] = $result['groups'];
+        } else {
+            $data['grps'] = [];
+        }
 
         return $data;
     }
